@@ -1,0 +1,35 @@
+<script type="text/x-kendo-template" id="agenda-template">
+    # var activeCss = ""; #
+    # var oDocs = ""; #
+    # var oSeparator = ""; #
+    <div class="scheduleHeaderIcon">
+        # if (HasLink !== false) { #
+            <span class="km-icon km-arrow-e"></span>
+        # } #
+    </div>
+    # for (i = 0; i < AgendaItemDocs.results.length; i++) { #
+        # oDocs = oDocs + oSeparator + AgendaItemDocs.results[i].docNumber; #
+        # oSeparator = "|"; #
+    # } #
+    # for (i = 0; i < AgendaItemTitles.results.length; i++) { #
+        # if (AgendaItemTitles.results[i].languageId == currentLang.value) { activeCss = "activeLabel"; } else { activeCss = ""; } #
+        <div data-role="button" class="agendaItem label_#= AgendaItemTitles.results[i].languageId.replace("cn", "zh") # #= activeCss #" data-click="showAgendaDocs" data-vid="#= viewId #" data-agenda="#= ItemId # #= AgendaItemTitles.results[i].title.replace('.', '').replace(':', '').replace(';', '') #" data-docs="#= oDocs #">
+            <span class="agendaItemNb">#= ItemId #</span> <span class="agendaItemTitle">#= AgendaItemTitles.results[i].title.replace(".", "").replace(":", "").replace(";", "") #</span>
+        </div>
+    # } #
+</script>
+
+<div id="brsAgenda" data-role="view" data-layout="main-layout" data-init="agenda.init" data-after-show="setViewIdentity" data-reload="true" class="brsBody">
+    <div id="oLog"></div>
+    <div class="langBtns">
+        <ul id="btnsLangAgenda" class="langSelect" data-role="buttongroup" data-select="setLangFilters">
+            <li class="langBtn arabic" value="ar">عربي</li>
+            <li class="langBtn" value="zh">中文</li>
+            <li class="langBtn" value="en">English</li>
+            <li class="langBtn" value="fr">Français</li>
+            <li class="langBtn" value="ru">Русский</li>
+            <li class="langBtn" value="es">Español</li>
+        </ul>
+    </div>
+    <ul id="confAgenda" data-role="listview" class="brsContent"></ul>
+</div>

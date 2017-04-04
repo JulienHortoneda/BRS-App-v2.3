@@ -1,0 +1,43 @@
+<script type="text/x-kendo-template" id="docsListOfficial-template">
+    <div class="oDoc">
+        <div class="docNumber">#= UnNumber #</div>
+        <div class="docData">
+            <div class="docFile">
+                # var activeCss = ""; #
+                # for (i = 0; i < Files.length; i++) { #
+                    # if (Files[i].Language == currentLang.value) { activeCss = "activeLabel"; } else { activeCss = ""; } #
+                    <div class="file label_#= Files[i].Language # #= activeCss #">
+                        <!--<a href="#=Files[i].Url#" target="_blank" class="icons">-->
+                        <a data-role="button" data-click="openLinkInBrowser" data-brsurl="#=Files[i].Url#">
+                            <img border="0" src="http://chm.pops.int/desktopmodules/MFilesDocsV2/images/#=Files[i].Extension#.png">
+                        </a>
+                    </div>
+                # } #
+                </div>
+                # activeCss = ""; #
+                # for (i = 0; i < Titles.length; i++) { #
+                    # if (Titles[i].Language == currentLang.value) { activeCss = "activeLabel"; } else { activeCss = ""; } #
+                    <div class="docTitle label_#= Titles[i].Language # #= activeCss #">
+                        #= Titles[i].Value #
+                    </div>
+                # } #
+            <div class="clear"></div>
+        </div>
+    </div>
+</script>
+
+<div id="OfficialDocs" data-role="view" data-layout="main-layout" data-init="documents.init" data-after-show="setViewIdentity" data-reload="true" class="brsBody">
+    <div class="langBtns">
+        <ul id="btnsLang" class="langSelect" data-role="buttongroup" data-select="setLangFilters">
+            <li class="langBtn arabic" value="ar">عربي</li>
+            <li class="langBtn" value="zh">中文</li>
+            <li class="langBtn" value="en">English</li>
+            <li class="langBtn" value="fr">Français</li>
+            <li class="langBtn" value="ru">Русский</li>
+            <li class="langBtn" value="es">Español</li>
+        </ul>
+    </div>
+    <div id="oLog"></div>
+    <ul id="docsList" data-role="listview" class="brsContent"></ul>
+</div>
+

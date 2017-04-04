@@ -1,0 +1,40 @@
+{
+  "ProjectName": "BRS App",
+  "ProjectGuid": "47394910-cce7-448d-9eeb-53df633a4659",
+  "projectVersion": 1,
+  "AppIdentifier": "org.brsmeas.BRSApp",
+  "DisplayName": "BRS App",
+  "Author": "Secretariat of the Basel, Rotterdam and Stockholm Conventions",
+  "Description": "BRS App provides a window to information about the meetings of the global chemicals and wastes conventions. It gives quick and easy access to essential information about the 2015 COPs as well as other information about the Secretariat of the Basel, Rotterdam and Stockholm Conventions.",
+  "BundleVersion": "1.0.3",
+  "AndroidVersionCode": "1",
+  "iOSDeviceFamily": [
+    "1",
+    "2"
+  ],
+  "iOSBackgroundMode": [],
+  "ProjectTypeGuids": "{070BCB52-5A75-4F8C-A973-144AF0EAFCC9}",
+  "FrameworkVersion": "3.5.0",
+  "AndroidPermissions": [],
+  "DeviceOrientations": [
+    "Portrait",
+    "Landscape"
+  ],
+  "AndroidHardwareAcceleration": "false",
+  "iOSStatusBarStyle": "Default",
+  "Framework": "Cordova",
+  "WP8TileTitle": "",
+  "WP8Publisher": "",
+  "WP8Capabilities": [],
+  "WP8Requirements": [],
+  "WP8PublisherID": "{b5e9d939-e5da-429b-8c84-7cec48046af9}",
+  "WP8ProductID": "{1b4e9033-ec93-44a6-966f-f071796cd715}",
+  "WPSdk": "8.0",
+  "WP8PackageIdentityName": "1234Telerik.BRSApp",
+  "WP8WindowsPublisherName": "CN=Telerik",
+  "WP8SupportedResolutions": [
+    "ID_RESOLUTION_WVGA",
+    "ID_RESOLUTION_WXGA",
+    "ID_RESOLUTION_HD720P"
+  ]
+}

@@ -1,0 +1,17 @@
+<script type="text/x-kendo-template" id="newsArticle-template">
+    <div class="news">
+        # if (imgUrl !== null) { #
+            <div class="newsImg">
+                <img src="#= imgUrl #" alt="#= title #" />
+            </div>
+        # } #
+        <div class="newsTitle">#= title #</div>
+        <div class="newsContent">#= decodeHTML(content) #</div>
+        <div class="newsId">#= id #</div>
+    </div>
+</script>
+
+<div id="brsNewsDetails" data-role="view" data-layout="back-layout" data-init="newsdetails.init" data-reload="true" class="brsBody">
+    <div id="oLog"></div>
+    <div id="newsArticle" class="brsContent"></div>
+</div>

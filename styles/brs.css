@@ -1,0 +1,87 @@
+/* general */
+body, table, th, td, p, div, span, ol, ul, li, input, textarea, select, blockquote, a, a:link, a:visited, a:hover, h1, h2, h3, h4, h5, h6
+{
+    font-family:Arial; 
+}
+body {background-color:#292829;}
+.brsBody, .brsContent {height:100%;}
+.clear {clear:both; height:0px;}
+.km-loader {background-color:#292829;}
+/* header */
+#brsHeaderImg, #brsHeaderImgBack {background-color:#292829; padding:12px;}
+#brsHeaderImg img, #brsHeaderImgBack img {width:100%;}
+#brsNavBar, #brsNavBarBack {color:#FFFFFF; border-bottom:0px; background-color:#757375;}
+.km-menu:after, .km-menu:before {content: "\e0f1";}
+
+/* menu */
+ul.brsMenu {background-color:#292829; color:#FFFFFF; margin:0px;}
+ul.brsMenu .km-button {border:none; padding:0px; background:none;}
+ul.brsMenu a {text-decoration:none;}
+ul.brsMenu li {font-weight:bold; border-bottom:1px solid #FFFFFF; padding-left:28px;}
+ul.brsMenu li ul {padding-left:0px;}
+ul.brsMenu li ul li {font-weight:normal; list-style-type:none; padding:2px 0px 2px 0px;}
+ul.brsMenu li.lnkBrs {background-image:url("../styles/gfx/logo_2015_cops_small.png"); background-position:5px 4px; background-repeat:no-repeat;}
+ul.brsMenu li.lnkBc {color:#4AB758; background-image:url("../styles/gfx/logo_2015_bc_small.png"); background-position:5px 4px; background-repeat:no-repeat; border-bottom-width:0px;}
+ul.brsMenu .lnkRc {color:#0B6091; background-image:url("../styles/gfx/logo_2015_rc_small.png"); background-position:5px 4px; background-repeat:no-repeat; border-bottom-width:0px;}
+ul.brsMenu .lnkSc {color:#F58239; background-image:url("../styles/gfx/logo_2015_sc_small.png"); background-position:5px 4px; background-repeat:no-repeat; border-bottom-width:0px;}
+ul.brsMenu .lnkBc ul li, .lnkRc ul li, .lnkSc ul li {color:#FFFFFF; background-image:none;}
+ul.brsMenu li.lnkBc, ul.brsMenu li.lnkRc, ul.brsMenu li.lnkSc, ul.brsMenu li.lnkBrs  {padding-top:2px; padding-bottom:2px; border-color:#FFFFFF;}
+
+/* news */
+.newsTitle {font-weight:bold;}
+.newsDescription p {margin:0px; padding:0px; font-size:0.8em;}
+.newsUrl, .newsContent, .newsId {display:none;}
+.newsImg {float:left; margin-right:6px; background-color:#CCCCCC; border:1px solid #757375; padding:0px; width:120px;}
+.newsImg img {width:120px; height:80px; margin:0px; padding:3px 5px 2px 3px;}
+#brsNewsDetails .newsContent {display:block;}
+
+/* schedule */
+#scheduleNav {width:100%;}
+#btnsSchedule {margin: 1em auto; height: 24px;}
+#btnsSchedule .km-button {background-color:transparent; border-color:#007AFF;}
+#btnsSchedule .km-state-active {background-color:#007AFF; border-color:#007AFF;}
+.schduleBtn {font-size:0.8em;}
+#scheduleList li {border-width:0px;}
+.schedule {margin: 4px 0px 4px 0px; padding: 2px 0px 2px 0px; background-color:#EBE7EB; border: solid 1px #C1BEC1;}
+.scheduleHeader {padding: 2px; height:auto;}
+.scheduleHeaderIcon {float:right; padding:0px 2px 0px 8px;}
+.scheduleTime {font-weight:bold;}
+.scheduleName, .scheduleType {font-weight:bold;}
+.km-arrow-e:after, .km-arrow-e:before {content: "\e000";}
+.km-arrow-c:after, .km-arrow-c:before {content: "\e002";}
+.scheduleDescription {display:none; font-size:0.8em; background-color:#FFFFFF; color:#4C5356; padding:4px;}
+
+/* doc list styles */
+#docsList .km-button, #agendaDetail  .km-button {padding:3px; border:0px; background:none;}
+.attentionNote {color:red;}
+.docNumber {font-weight:bold;}
+.docData {overflow:hidden;}
+.docTitle {}
+.docFile {float:right; padding:0px 4px 0px 4px;}
+.file {float:left; padding:0px 2px 0px 2px;}
+
+/* agenda styles */
+#confAgenda .km-button {padding:0px; border:0px; background:none; text-align:left;}
+.agendaItem {margin: 4px 0px 4px 0px; padding: 2px 0px 2px 0px;}
+.agendaItemNb {font-weight:600;}
+.agendaItemTitle {}
+/* agenda details styles - color:#003399;  */
+#agendaTitle {font-weight:bold; padding:8px; margin:2px; font-size:1.2em; background:none; text-align:left;}
+#agendaTitle h3 {font-size:1em;}
+#agendaDetailNav {border-width:0px;}
+#agendaDetailNav .km-view-title {font-size:1em; background:none; text-align:left; margin:12px 4px 12px 4px; width:100%; height:auto; line-height:1;}
+
+/* language tabs */
+.brsBody .langBtns {}
+.langBtn {font-size:0.6em;}
+#btnsLang .km-button, #btnsLangAgenda .km-button {background-color:transparent; border-color:#007AFF; min-width:50px;}
+#btnsLang .km-state-active, #btnsLangAgenda .km-state-active {background-color:#007AFF; border-color:#007AFF;}
+/* this must be at the bottom (in this order) */
+.arabic {direction: rtl;}
+.label_ar {display:none; direction: rtl;}
+.label_zh, .label_cn {display:none;}
+.label_en {display:none;}
+.label_fr {display:none;}
+.label_ru {display:none;}
+.label_es {display:none;}
+.activeLabel {display:block;}
