@@ -4,46 +4,55 @@ var viewId = "";
     window.agenda = {
         init: function() {
             //get view config from url and array
-            var UrlParams = extractUrlParams();
-            viewId = UrlParams['vid'];
-            if (viewId == undefined) {viewId = 1;}
-            var agendaFeed = "http://informea.pops.int/MobileApp/brsMobileApp2.svc/AgendaItems?$expand=AgendaItemDocs,AgendaItemTitles";
-            for (var i = 0; i < viewConfig.length; i++) {
-                if (viewConfig[i].vid == parseInt(viewId)) {
-                    agendaFeed = agendaFeed + viewConfig[i].filter;
-                    conv = viewConfig[i].conv;
-                    header = viewConfig[i].title;
-                    this.header.find('[data-role="navbar"]').data('kendoMobileNavBar').title(viewConfig[i].title);
+            var oViewConfig = getViewConfig(this);
+            if (oViewConfig !== undefined) {
+                //check if newer config is available
+                var isOldVersion = isOldConfig(oViewConfig.version);
+                viewId = oViewConfig.id;
+                //check if language selection should be hidden
+                if (!oViewConfig.isMultilingual) {
+                    $(".langBtns").hide();
                 }
-            }
-            //set language
-            currentLang.value = $("#hdnLang").text();
-            
-            //set datasource for this agenda
-            var agendaDataSource = new kendo.data.DataSource({
-                serverFiltering: true,
-                serverSorting: true,
-                serverPaging: true,
-                pageSize: 200,
-                type: "odata",
-                transport: {
-                    read: {
-                        url: agendaFeed,
-                        dataType: "jsonp"
+                //set header and view title
+                setHeaderContent(this, oViewConfig);
+                //set language
+                currentLang.value = $("#hdnLang").text();
+
+                //set datasource for this agenda
+                var agendaDataSource = new kendo.data.DataSource({
+                    serverFiltering: true,
+                    serverSorting: true,
+                    serverPaging: true,
+                    pageSize: 200,
+                    type: "odata",
+                    transport: {
+                        read: {
+                            url: oViewConfig.feedUrl,
+                            dataType: "jsonp"
+                        }
+                    },
+                    schema: {
+                        // feed is in V3
+                        data: function (data) {
+                            return data["value"];
+                        },
+                        total: function (data) {
+                            return data["odata.count"];
+                        }
                     }
-                },
-                sort: { field: "DisplayOrder", dir: "asc" }
-            });
-            
-            //display agenda
-            $("#confAgenda").kendoMobileListView({
-                dataSource: agendaDataSource,
-                template: $("#agenda-template").html(),
-                dataBound: function(e) {
-                    //show - hide languages labels
-                    displayActiveLanguageLabels();
-                }
-            });   
+                });
+                
+                //display agenda
+                $("#confAgenda").kendoMobileListView({
+                    dataSource: agendaDataSource,
+                    template: $("#" + oViewConfig.templateId).html(),
+                    dataBound: function(e) {
+                        //show - hide languages labels
+                        displayActiveLanguageLabels();
+                    }
+                }); 
+            }
+              
         }
     };  
 }());

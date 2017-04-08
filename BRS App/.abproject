@@ -6,7 +6,7 @@
   "DisplayName": "BRS App",
   "Author": "Secretariat of the Basel, Rotterdam and Stockholm Conventions",
   "Description": "BRS App provides a window to information about the meetings of the global chemicals and wastes conventions. It gives quick and easy access to essential information about the 2015 COPs as well as other information about the Secretariat of the Basel, Rotterdam and Stockholm Conventions.",
-  "BundleVersion": "1.0.3",
+  "BundleVersion": "2.0.1",
   "AndroidVersionCode": "1",
   "iOSDeviceFamily": [
     "1",
@@ -14,13 +14,13 @@
   ],
   "iOSBackgroundMode": [],
   "ProjectTypeGuids": "{070BCB52-5A75-4F8C-A973-144AF0EAFCC9}",
-  "FrameworkVersion": "3.5.0",
+  "FrameworkVersion": "6.4.0",
   "AndroidPermissions": [],
   "DeviceOrientations": [
     "Portrait",
     "Landscape"
   ],
-  "AndroidHardwareAcceleration": "false",
+  "AndroidHardwareAcceleration": "True",
   "iOSStatusBarStyle": "Default",
   "Framework": "Cordova",
   "WP8TileTitle": "",
@@ -36,5 +36,27 @@
     "ID_RESOLUTION_WVGA",
     "ID_RESOLUTION_WXGA",
     "ID_RESOLUTION_HD720P"
-  ]
+  ],
+  "CorePlugins": [
+    "com.phonegap.plugins.PushPlugin@2.5.0",
+    "cordova-plugin-console",
+    "cordova-plugin-contacts",
+    "cordova-plugin-device",
+    "cordova-plugin-device-motion",
+    "cordova-plugin-device-orientation",
+    "cordova-plugin-dialogs",
+    "cordova-plugin-file",
+    "cordova-plugin-file-transfer",
+    "cordova-plugin-geolocation",
+    "cordova-plugin-globalization",
+    "cordova-plugin-inappbrowser",
+    "cordova-plugin-media",
+    "cordova-plugin-media-capture",
+    "cordova-plugin-network-information",
+    "cordova-plugin-splashscreen",
+    "cordova-plugin-statusbar",
+    "cordova-plugin-vibration",
+    "cordova-plugin-whitelist"
+  ],
+  "CordovaPluginVariables": {}
 }

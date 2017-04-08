@@ -1,56 +1,36 @@
-<script type="text/x-kendo-template" id="newsListNoPic-template">
-    <div class="news">
-        <div class="scheduleHeaderIcon">
-            # if (url !== null) { #
-                <span class="km-icon km-arrow-e"></span>
-            # } #
-        </div>
-        <div class="newsTitle">#= title #</div>
-        <div class="newsDescription">#= decodeHTML(description) #</div>
-        # if (url !== null) { #
-            <div class="newsUrl">#= url #</div>
-        # } #
-        <div class="newsContent">
-        # if (content == "&amp;nbsp;") { #
-            #= url #
-        # } else { #
-            yes
-        # } #
-        </div>
-        <div class="newsId">#= id #</div>
-    </div>
-</script>
-
-<script type="text/x-kendo-template" id="newsListWithPic-template">
-    <div class="news">
-        <div class="scheduleHeaderIcon">
-            # if (url !== null) { #
-                <span class="km-icon km-arrow-e"></span>
-            # } #
-        </div>
-        # if (imgUrl !== null) { #
-            <div class="newsImg">
-                <img src="#= imgUrl #" alt="#= title #" />
-            </div>
-        # } #
-        <div class="newsTitle">#= title #</div>
-        <div class="newsDescription">#= decodeHTML(description) #</div>
-        # if (url !== null) { #
-            <div class="newsUrl">#= url #</div>
-        # } #
-        <div class="newsContent">
-        # if (content == "&amp;nbsp;") { #
-            #= url #
-        # } else { #
-            yes
-        # } #
-        </div>
-        <div class="newsId">#= id #</div>
-    </div>
-</script>
-
 <div id="brsNews" data-role="view" data-layout="main-layout" data-init="news.init" data-reload="true" class="brsBody">
     <div id="oLog"></div>
+    <div class="brsContent brsViewDescription"></div>
     <ul id="newsList" data-role="listview" class="brsContent"></ul>
+
+    <script type="text/x-kendo-template" id="newsList-v3-template">
+        <div class="news">
+            <div class="scheduleHeaderIcon">
+                # if (url !== null) { #
+                    <span class="km-icon km-arrow-e"></span>
+                # } #
+            </div>
+            # if (imgUrl !== null) { #
+                <div class="newsImg">
+                    <img src="#= imgUrl #" alt="#= title #" />
+                </div>
+            # } #
+            <div class="newsTitle">#= title #</div>
+            <div class="newsDescription">#= decodeHTML(description) #</div>
+        </div>
+    </script>
+
+    <script type="text/x-kendo-template" id="newsListNoImg-v3-template">
+        <div class="news">
+            <div class="scheduleHeaderIcon">
+                # if (url !== null) { #
+                    <span class="km-icon km-arrow-e"></span>
+                # } #
+            </div>
+            <div class="newsTitle">#= title #</div>
+            <div class="newsDescription">#= decodeHTML(description) #</div>
+        </div>
+    </script>
+
 </div>
 

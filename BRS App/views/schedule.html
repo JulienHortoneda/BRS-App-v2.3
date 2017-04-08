@@ -1,47 +1,6 @@
-<script type="text/x-kendo-template" id="schedule-template">
-    <div class="schedule">
-        <div class="scheduleHeader">
-            <div class="scheduleHeaderIcon">
-                # if (description !== null) { #
-                    <span class="km-icon km-arrow-e"></span>
-                # } #
-            </div>
-            <div class="scheduleHeaderContent">
-                # if (startDate !== null && endDate !== null) { #
-                <span class="scheduleTime">
-                    #= kendo.toString(kendo.parseDate(startDate), "HH:mm") # - #= kendo.toString(kendo.parseDate(endDate), "HH:mm") #
-                </span>&nbsp;
-                # } #
-                # if (eventType == "Side Event" || eventType == "Contact Group") { #
-                <span class="scheduleType">
-                    #= eventType #:
-                </span>&nbsp;
-                # } #
-                <span class="scheduleName">
-                    #= name #
-                </span>
-                <br />
-                <span class="scheduleRoom">
-                    #= room #
-                </span>
-            </div>
-            <div class="clear"></div>
-        </div>
-        # if (description !== null) { #
-            <div class="scheduleDescription">#= decodeHTML(description) #</div>
-        # } #
-        # if (eventType == "Side Event" || eventType == "Contact Group") { #
-            <span class="scheduleType">
-                #= eventType #:
-            </span>&nbsp;
-        # } #
-    </div>
-</script>
-
 <div id="brsSchedule" data-role="view" data-layout="main-layout" data-init="schedule.init" data-reload="true" class="brsBody">
-    
         <div data-role="navbar" id="scheduleNav">
-            <ul id="btnsSchedule" data-role="buttongroup" data-index="1" data-select="setScheduleDate">
+            <ul id="btnsSchedule" data-role="buttongroup" data-index="1" data-select="setScheduleDate" data-brsmindate="" data-brsmaxdate="">
                 <li id="btnsSchedulePrev" class="schduleBtn" value="prev">Previous Day</li>
                 <li id="btnsScheduleCur" class="schduleBtn" value="curr">Current Day</li>
                 <li id="btnsScheduleNext" class="schduleBtn" value="next">Next Day</li>
@@ -49,5 +8,42 @@
         </div>
     
     <div id="oLog"></div>
+    <div class="brsContent brsViewDescription"></div>
     <ul id="scheduleList" data-role="listview" class="brsContent"></ul>
+
+    <script type="text/x-kendo-template" id="schedule-template">
+        <div class="schedule">
+            <div class="scheduleHeader">
+                <div class="scheduleHeaderIcon">
+                    # if (description !== null) { #
+                        <span class="km-icon km-arrow-e"></span>
+                    # } #
+                </div>
+                <div class="scheduleHeaderContent">
+                    # if (startDate !== null && endDate !== null) { #
+                    <span class="scheduleTime">
+                        #= offsetScheduleTime(startDate) # - #= offsetScheduleTime(endDate) #
+                    </span>&nbsp;
+                    # } #
+                    # if (eventType == "Side Event" || eventType == "Contact Group") { #
+                    <span class="scheduleType">
+                        #= eventType #:
+                    </span>&nbsp;
+                    # } #
+                    <span class="scheduleName">
+                        #= name #
+                    </span>
+                    <br />
+                    <span class="scheduleRoom">
+                        #= room #
+                    </span>
+                </div>
+                <div class="clear"></div>
+            </div>
+            # if (description !== null) { #
+                <div class="scheduleDescription">#= decodeHTML(description) #</div>
+            # } #
+        </div>
+    </script>
+
 </div>

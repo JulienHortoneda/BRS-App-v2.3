@@ -3,6 +3,7 @@
 <head>
     <title>BRS App</title>
     <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, width=device-width">
     <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
     <link href="styles/main.css" rel="stylesheet" />
     <link href="styles/brs.css" rel="stylesheet" />
@@ -22,11 +23,10 @@
 <body>
     <div id="hdnLang" style="display:none;">en</div>
     <div id="hdnLangIndex" style="display:none;">2</div>
-    <div data-role="view" id="index" data-title="Documents"></div>
     
     <div data-role="layout" data-id="main-layout">
         <div data-role="header">
-            <div id="brsHeaderImg">
+            <div id="brsHeader">
                 <img src="styles/gfx/headerBrs.png" alt="" />
             </div>
             <div data-role="navbar" id="brsNavBar">
@@ -34,57 +34,13 @@
                 <span data-role="view-title"></span>
 				<a href="#app-settings" data-role="button" data-align="right" data-icon="settings"></a>
             </div>
+            <div id="btnReloadConfig" class="btnReload" data-role="button" data-icon="refresh" data-click="reloadConfig">New configuration</div>
         </div>
     </div>
 	
-	<div data-role="view" id="app-settings" data-layout="main-layout" data-title="Settings">
-		<ul data-role="listview" data-style="inset" data-type="group">
-			<li>
-				<ul>
-    	            <li>Receive Push Notifications <input data-role="switch" id="pushnotifications-switch" data-change="switchChange" /></li>
-	            </ul>
-			</li>
-		</ul>
-	</div>
-    
-    <div data-role="drawer" id="app-drawer">
-        <ul data-role="listview" class="brsMenu">
-            <li class="lnkBrs"><a href="views/news.html?vid=30" data-role="button">Annoucements</a></li>
-            <li class="lnkBrs"><a href="views/schedule.html?vid=35" data-role="button">Schedule</a></li>
-            <li class="lnkBc">Basel COP-12
-                <ul>
-                    <li><a href="views/agenda.html?vid=4" data-role="button">Agenda</a></li>
-                    <li><a href="views/documents.html?vid=0" data-role="button">Working Documents</a></li>
-                    <li><a href="views/documents.html?vid=1" data-role="button">Information Documents</a></li>
-                    <li><a href="views/documents.html?vid=2" data-role="button">CRPs</a></li>
-                    <li><a href="views/documents.html?vid=3" data-role="button">Draft Report</a></li>
-                </ul>
-            </li>
-            <li class="lnkRc">Rotterdam COP-7
-                <ul>
-                    <li><a href="views/agenda.html?vid=14" data-role="button">Agenda</a></li>
-                    <li><a href="views/documents.html?vid=10" data-role="button">Working Documents</a></li>
-                    <li><a href="views/documents.html?vid=11" data-role="button">Information Documents</a></li>
-                    <li><a href="views/documents.html?vid=12" data-role="button">CRPs</a></li>
-                    <li><a href="views/documents.html?vid=13" data-role="button">Draft Report</a></li>
-                </ul>
-            </li>
-            <li class="lnkSc">Stockholm COP-7
-                <ul>
-                    <li><a href="views/agenda.html?vid=24" data-role="button">Agenda</a></li>
-                    <li><a href="views/documents.html?vid=20" data-role="button">Working Documents</a></li>
-                    <li><a href="views/documents.html?vid=21" data-role="button">Information Documents</a></li>
-                    <li><a href="views/documents.html?vid=22" data-role="button">CRPs</a></li>
-                    <li><a href="views/documents.html?vid=23" data-role="button">Draft Report</a></li>
-                </ul>
-            </li>
-            <li class="lnkBrs"><a href="views/news.html?vid=31" data-role="button">News</a></li>
-        </ul>
-    </div>
-    
     <div data-role="layout" data-id="back-layout">
         <div data-role="header">
-            <div id="brsHeaderImgBack">
+            <div id="brsHeaderBack">
                 <img src="styles/gfx/headerBrs.png" alt="" />
             </div>
             <div data-role="navbar" id="brsNavBarBack">
@@ -93,6 +49,20 @@
             </div>
         </div>
     </div>
+
+    <div data-role="drawer" id="app-drawer">
+        <ul data-role="listview" class="brsMenu"></ul>
+    </div>
+	
+    <div data-role="view" id="app-settings" data-layout="main-layout" data-title="Settings">
+		<ul data-role="listview" data-style="inset" data-type="group">
+			<li>
+				<ul>
+    	            <li>Receive Push Notifications <input data-role="switch" id="pushnotifications-switch" data-change="switchChange" /></li>
+	            </ul>
+			</li>
+		</ul>
+	</div>
    
 </body>
 </html>

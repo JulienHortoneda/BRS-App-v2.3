@@ -1,0 +1,19 @@
+<div id="brsRss" data-role="view" data-layout="main-layout" data-init="rssnews.init" data-reload="true" class="brsBody">
+    <div class="brsContent brsViewDescription"></div>
+    <div id="oLog"></div>
+    <ul id="rssList" data-role="listview" class="brsContent"></ul>
+
+    <script type="text/x-kendo-template" id="newsListRss-template">
+        <div class="news">
+            <div class="scheduleHeaderIcon">
+                # if (link !== null) { #
+                    <span class="km-icon km-arrow-e"></span>
+                # } #
+            </div>
+            <div class="newsTitle">#= title #</div>
+            <div class="newsDescription">#= decodeHTML(description) #</div>
+        </div>
+    </script>
+
+</div>
+

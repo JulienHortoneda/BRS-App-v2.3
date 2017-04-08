@@ -3,13 +3,20 @@ body, table, th, td, p, div, span, ol, ul, li, input, textarea, select, blockquo
 {
     font-family:Arial; 
 }
+
 body {background-color:#292829;}
-.brsBody, .brsContent {height:100%;}
+.brsBody, .brsContent {height:100%; color: #333333;}
+.brsContent {padding: 0.4rem 0.3rem 0.6rem 0.3rem;}
+.brsViewDescription {padding: 1rem 1rem 0.6rem 1rem; display:none;}
 .clear {clear:both; height:0px;}
-.km-loader {background-color:#292829;}
+.km-flat .km-loader:before {background: #00aeef;}
 /* header */
-#brsHeaderImg, #brsHeaderImgBack {background-color:#292829; padding:12px;}
-#brsHeaderImg img, #brsHeaderImgBack img {width:100%;}
+#brsHeader, #brsHeaderBack {background-color:#292829; margin:0px; max-height:5rem; overflow:hidden; width: 100%;}
+#brsHeader img, #brsHeaderBack img {height:4.8rem; float:left;padding:0.8rem;}
+#brsHeader h2, #brsHeader h3, #brsHeaderBack h2, #brsHeaderBack h3 {color:#FFFFFF; font-weight:normal;}
+#brsHeader h2, #brsHeaderBack h2 {font-size:1.2rem; color:#FFFFFF; font-weight:normal; margin-bottom:0px; padding-bottom:0px;}
+#brsHeader h3, #brsHeaderBack h3 {font-size:0.75rem; color:#FFFFFF; font-weight:normal; margin-top:0.4rem; margin-bottom:0px; padding-top:0px; padding-bottom:0px;}
+
 #brsNavBar, #brsNavBarBack {color:#FFFFFF; border-bottom:0px; background-color:#757375;}
 .km-menu:after, .km-menu:before {content: "\e0f1";}
 
@@ -17,19 +24,18 @@ body {background-color:#292829;}
 ul.brsMenu {background-color:#292829; color:#FFFFFF; margin:0px;}
 ul.brsMenu .km-button {border:none; padding:0px; background:none;}
 ul.brsMenu a {text-decoration:none;}
-ul.brsMenu li {font-weight:bold; border-bottom:1px solid #FFFFFF; padding-left:28px;}
+ul.brsMenu a:after {display:none;}
+ul.brsMenu li, ul.brsMenu.km-list > li {font-weight:bold; border-bottom:1px solid #FFFFFF; padding-left:28px;}
 ul.brsMenu li ul {padding-left:0px;}
-ul.brsMenu li ul li {font-weight:normal; list-style-type:none; padding:2px 0px 2px 0px;}
-ul.brsMenu li.lnkBrs {background-image:url("../styles/gfx/logo_2015_cops_small.png"); background-position:5px 4px; background-repeat:no-repeat;}
-ul.brsMenu li.lnkBc {color:#4AB758; background-image:url("../styles/gfx/logo_2015_bc_small.png"); background-position:5px 4px; background-repeat:no-repeat; border-bottom-width:0px;}
-ul.brsMenu .lnkRc {color:#0B6091; background-image:url("../styles/gfx/logo_2015_rc_small.png"); background-position:5px 4px; background-repeat:no-repeat; border-bottom-width:0px;}
-ul.brsMenu .lnkSc {color:#F58239; background-image:url("../styles/gfx/logo_2015_sc_small.png"); background-position:5px 4px; background-repeat:no-repeat; border-bottom-width:0px;}
-ul.brsMenu .lnkBc ul li, .lnkRc ul li, .lnkSc ul li {color:#FFFFFF; background-image:none;}
-ul.brsMenu li.lnkBc, ul.brsMenu li.lnkRc, ul.brsMenu li.lnkSc, ul.brsMenu li.lnkBrs  {padding-top:2px; padding-bottom:2px; border-color:#FFFFFF;}
+ul.brsMenu li ul li {font-weight:normal; list-style-type:none; padding:2px 0px 2px 0px; background-image:none; color:#FFFFFF;}
+
+/* reload config button */
+.btnReload,  .btnReload.km-button {position:fixed; display:none; top:10rem; left: 6rem; z-index:20; background-color:#757375; color:#FFFFFF; padding:0.3rem; border:0.5rem solid #757375; border-radius:2rem;}
 
 /* news */
 .newsTitle {font-weight:bold;}
-.newsDescription p {margin:0px; padding:0px; font-size:0.8em;}
+.newsDescription {margin:0px; padding:0px; font-size:0.8em;font-weight:normal;}
+.newsDescription p {font-weight:normal; margin:0px; padding:0px;}
 .newsUrl, .newsContent, .newsId {display:none;}
 .newsImg {float:left; margin-right:6px; background-color:#CCCCCC; border:1px solid #757375; padding:0px; width:120px;}
 .newsImg img {width:120px; height:80px; margin:0px; padding:3px 5px 2px 3px;}
@@ -37,7 +43,7 @@ ul.brsMenu li.lnkBc, ul.brsMenu li.lnkRc, ul.brsMenu li.lnkSc, ul.brsMenu li.lnk
 
 /* schedule */
 #scheduleNav {width:100%;}
-#btnsSchedule {margin: 1em auto; height: 24px;}
+#btnsSchedule {margin: 1em auto;}
 #btnsSchedule .km-button {background-color:transparent; border-color:#007AFF;}
 #btnsSchedule .km-state-active {background-color:#007AFF; border-color:#007AFF;}
 .schduleBtn {font-size:0.8em;}
@@ -47,16 +53,17 @@ ul.brsMenu li.lnkBc, ul.brsMenu li.lnkRc, ul.brsMenu li.lnkSc, ul.brsMenu li.lnk
 .scheduleHeaderIcon {float:right; padding:0px 2px 0px 8px;}
 .scheduleTime {font-weight:bold;}
 .scheduleName, .scheduleType {font-weight:bold;}
+.scheduleRoom {font-weight:normal;}
 .km-arrow-e:after, .km-arrow-e:before {content: "\e000";}
 .km-arrow-c:after, .km-arrow-c:before {content: "\e002";}
-.scheduleDescription {display:none; font-size:0.8em; background-color:#FFFFFF; color:#4C5356; padding:4px;}
+.scheduleDescription {display:none; font-size:0.8em; background-color:#FFFFFF; color:#4C5356; padding:4px; font-weight:normal;}
 
 /* doc list styles */
 #docsList .km-button, #agendaDetail  .km-button {padding:3px; border:0px; background:none;}
 .attentionNote {color:red;}
 .docNumber {font-weight:bold;}
 .docData {overflow:hidden;}
-.docTitle {}
+.docTitle {font-weight:normal;}
 .docFile {float:right; padding:0px 4px 0px 4px;}
 .file {float:left; padding:0px 2px 0px 2px;}
 
@@ -64,13 +71,14 @@ ul.brsMenu li.lnkBc, ul.brsMenu li.lnkRc, ul.brsMenu li.lnkSc, ul.brsMenu li.lnk
 #confAgenda .km-button {padding:0px; border:0px; background:none; text-align:left;}
 .agendaItem {margin: 4px 0px 4px 0px; padding: 2px 0px 2px 0px;}
 .agendaItemNb {font-weight:600;}
-.agendaItemTitle {}
+.agendaItemTitle {font-weight:normal;}
 /* agenda details styles - color:#003399;  */
-#agendaTitle {font-weight:bold; padding:8px; margin:2px; font-size:1.2em; background:none; text-align:left;}
+.agendaDetailsItemTitle {font-weight:bold; padding:8px; margin:2px; font-size:1.2em; background:none; text-align:left;}
+/*#agendaTitle {font-weight:bold; padding:8px; margin:2px; font-size:1.2em; background:none; text-align:left;}
 #agendaTitle h3 {font-size:1em;}
 #agendaDetailNav {border-width:0px;}
 #agendaDetailNav .km-view-title {font-size:1em; background:none; text-align:left; margin:12px 4px 12px 4px; width:100%; height:auto; line-height:1;}
-
+*/
 /* language tabs */
 .brsBody .langBtns {}
 .langBtn {font-size:0.6em;}

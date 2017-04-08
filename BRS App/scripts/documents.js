@@ -1,166 +1,161 @@
 
 (function () {
-    //$("#oLog").append("<p>loading view</p>");
     window.documents = {
         init: function() {
-            //$("#oLog").append("<p>show function</p>");
             //get view config from url and array
-            var UrlParams = extractUrlParams();
-            var viewId = UrlParams['vid'];
-            if (viewId == undefined) {viewId = 1;}
-            var docsFeed = "http://informea.pops.int/BrsDocuments/MFiles.svc/Documents?$select=UnNumber,Meetings/ListPropertyId,Meetings/Value,Files/Extension,Files/FileId,Files/Language,Files/Url,Titles/Language,Titles/TitleId,Titles/Value,Types/ListPropertyId,Types/Value&$expand=Meetings,Files,Titles,Types";
-            for (var i = 0; i < viewConfig.length; i++) {
-                if (viewConfig[i].vid == parseInt(viewId)) {
-                    //$("#oLog").append("<p>" + viewConfig[i].vid + "</p>");
-                    docsFeed = docsFeed + viewConfig[i].filter;
-                    //$("#brsHeaderImg img").attr("src", viewConfig[i].logoUrl);
-                    this.header.find('[data-role="navbar"]').data('kendoMobileNavBar').title(viewConfig[i].title);
+            var oViewConfig = getViewConfig(this);
+            if (oViewConfig !== undefined) {
+                //check if newer config is available
+                var isOldVersion = isOldConfig(oViewConfig.version);
+                //check if language selection should be hidden
+                if (!oViewConfig.isMultilingual) {
+                    $(".langBtns").hide();
                 }
-            }
-            //set language
-            currentLang.value = $("#hdnLang").text();
-            
-            //set datasource for this doc list
-            var docsDataSource = new kendo.data.DataSource({
-                serverFiltering: true,
-                serverSorting: true,
-                serverPaging: true,
-                pageSize: 100,
-                type: "odata",
-                transport: {
-                    read: {
-                        url: docsFeed,
-                        dataType: "jsonp"
-                    }
-                },
-                //sort by UN Number does not work - we should split the string and resort
-                sort: { field: "UnNumber", dir: "asc" },
-                schema: {
-                    // with this no errors but no data
-                    data: function (data) {
-                        //implement un number sort here by adding a sortorder filed and sorting the array (alpha numeric sort) before returning data 
-                        var docs = [];
-                        for (var i = 0; i < data.value.length; i++) {
-                            var doc = {
-                                sortOrder: setDocDisplayOrder(data.value[i].UnNumber),
-                                UnNumber: data.value[i].UnNumber,
-                                Meetings: data.value[i].Meetings,
-                                //sort files by extension
-                                Files: data.value[i].Files.sort(function(a,b) {return (a.Extension > b.Extension) ? 1 : ((b.Extension > a.Extension) ? -1 : 0);} ),
-                                Titles: data.value[i].Titles,
-                                Types: data.value[i].Types
-                            };
-                            docs.push(doc);
+                //set header and view title
+                setHeaderContent(this, oViewConfig);
+                //set language
+                currentLang.value = $("#hdnLang").text();
+                
+                //set datasource for this doc list
+                var docsDataSource = new kendo.data.DataSource({
+                    serverFiltering: true,
+                    serverSorting: true,
+                    serverPaging: true,
+                    pageSize: 100,
+                    type: "odata",
+                    transport: {
+                        read: {
+                            url: oViewConfig.feedUrl,
+                            dataType: "jsonp"
                         }
-                        //sort response based on calculated sortOrder
-                        docs.sort(function(a, b){
-                            return a.sortOrder - b.sortOrder;
-                        });
-                        //return response with new format
-                        return docs;
                     },
-                    //because KendoUI still communicates in the OData V2
-                    total: function (data) {
-                        return data['odata.count'];
+                    schema: {
+                        data: function (data) {
+                            //implement un number sort here by adding a sortorder filed and sorting the array (alpha numeric sort) before returning data 
+                            var docs = [];
+                            for (var i = 0; i < data.value.length; i++) {
+                                var doc = {
+                                    sortOrder: setDocDisplayOrder(data.value[i].UnNumber),
+                                    UnNumber: data.value[i].UnNumber,
+                                    Meetings: data.value[i].Meetings,
+                                    //sort files by extension
+                                    Files: data.value[i].Files.sort(function(a,b) {return (a.Extension > b.Extension) ? 1 : ((b.Extension > a.Extension) ? -1 : 0);} ),
+                                    Titles: data.value[i].Titles,
+                                    Types: data.value[i].Types
+                                };
+                                docs.push(doc);
+                            }
+                            //sort response based on calculated sortOrder
+                            docs.sort(function(a, b){
+                                return a.sortOrder - b.sortOrder;
+                            });
+                            //return response with new format
+                            return docs;
+                        },
+                        //because KendoUI still communicates in the OData V2
+                        total: function (data) {
+                            return data['odata.count'];
+                        }
                     }
-                }
-            });
-            
-            //display docs
-            $("#docsList").kendoMobileListView({
-                dataSource: docsDataSource,
-                template: $("#docsListOfficial-template").html(),
-                dataBound: function(e) {
-                    //check if no documents yet
-                    if (this.items().length <= 0) {
-                        $("#btnsLang").hide();
-                        $("#oLog").append("<p class=\"attentionNote\">Documents will be displayed in this screen as soon as they will be published by the Secretariat in the course of the Conference.</p>").show();
+                });
+                
+                //display docs
+                $("#docsList").kendoMobileListView({
+                    dataSource: docsDataSource,
+                    template: $("#" + oViewConfig.templateId).html(),
+                    dataBound: function(e) {
+                        //check if no documents yet
+                        if (this.items().length <= 0) {
+                            $("#btnsLang").hide();
+                            $("#oLog").append("<p class=\"attentionNote\">Documents will be displayed in this screen as soon as they will be published by the Secretariat in the course of the Conference.</p>").show();
+                        }
+                        //show - hide languages labels
+                        displayActiveLanguageLabels();
                     }
-                    //show - hide languages labels
-                    displayActiveLanguageLabels();
-                }
-            });
-            
+                });
+            }
         }
     };
     window.agendadetails = {
         init: function() {
-            //$("#oLog").append("agenda detail");
             //get view config from url and array
-            var UrlParams = extractUrlParams();
-            var viewId = UrlParams['vid'];
-            if (viewId == undefined) {viewId = 1;}
-            for (var i = 0; i < viewConfig.length; i++) {
-                if (viewConfig[i].vid == parseInt(viewId)) {
-                    this.header.find('[data-role="navbar"]').data('kendoMobileNavBar').title(viewConfig[i].title);
+            var oViewConfig = getViewConfig(this);
+            if (oViewConfig !== undefined) {
+                //check if language selection should be hidden
+                if (!oViewConfig.isMultilingual) {
+                    $(".langBtns").hide();
                 }
-            }
-            //set feed url and array to filter the docs
-            var docsFeed = "http://informea.pops.int/BrsDocuments/MFiles.svc/Documents?$select=UnNumber,Meetings/ListPropertyId,Meetings/Value,Files/Extension,Files/FileId,Files/Language,Files/Url,Titles/Language,Titles/TitleId,Titles/Value,Types/ListPropertyId,Types/Value&$expand=Meetings,Files,Titles,Types";
-            var agendaFeedFilters = { logic: "or", filters: [] };
-            var docsprm = UrlParams['docs'].split("|");
-            for (i = 0; i < docsprm.length; i++) {
-                agendaFeedFilters.filters.push({ field: "UnNumber", operator: "eq", value: docsprm[i] });
-            }
-            //set language
-            currentLang.value = $("#hdnLang").text();
-            //set datasource for this doc list
-            var docsDataSource = new kendo.data.DataSource({
-                serverFiltering: true,
-                serverSorting: true,
-                serverPaging: true,
-                pageSize: 100,
-                type: "odata",
-                transport: {
-                    read: {
-                        url: docsFeed,
-                        dataType: "jsonp"
-                    }
-                },
-                filter: agendaFeedFilters,
-                //sort by UN Number does not work - we should split the string and resort
-                sort: { field: "UnNumber", dir: "asc" },
-                schema: {
-                    // with this no errors but no data
-                    data: function (data) {
-                        //implement un number sort here by adding a sortorder filed and sorting the array (alpha numeric sort) before returning data 
-                        var docs = [];
-                        for (var i = 0; i < data.value.length; i++) {
-                            var doc = {
-                                sortOrder: setDocDisplayOrder(data.value[i].UnNumber),
-                                UnNumber: data.value[i].UnNumber,
-                                Meetings: data.value[i].Meetings,
-                                //sort files by extension
-                                Files: data.value[i].Files.sort(function(a,b) {return (a.Extension > b.Extension) ? 1 : ((b.Extension > a.Extension) ? -1 : 0);} ),
-                                Titles: data.value[i].Titles,
-                                Types: data.value[i].Types
-                            };
-                            docs.push(doc);
+                //set header and view title
+                setHeaderContent(this, oViewConfig);
+                //set agenda item sub title
+                $(".agendaDetailsItemTitle").text("Agenda item " + this.params.agenda);
+
+                //set language
+                currentLang.value = $("#hdnLang").text();
+                
+                //set feed url and array to filter the docs
+                var agendaDocsFeed = "http://informea.pops.int/BrsDocuments/MFiles.svc/Documents?$select=DocumentId,UnNumber,Files/Extension,Files/Language,Files/Url,Titles/Value,Titles/Language&$expand=Files,Titles";
+                //filter doc list by un numbers passed as parameters
+                var agendaFeedFilters = { logic: "or", filters: [] };
+                var docsprm = this.params.docs.split("|");
+                for (i = 0; i < docsprm.length; i++) {
+                    agendaFeedFilters.filters.push({ field: "UnNumber", operator: "eq", value: docsprm[i] });
+                }
+                
+                //set datasource for this doc list
+                var docsDataSource = new kendo.data.DataSource({
+                    serverFiltering: true,
+                    serverSorting: true,
+                    serverPaging: true,
+                    pageSize: 100,
+                    type: "odata",
+                    transport: {
+                        read: {
+                            url: agendaDocsFeed,
+                            dataType: "jsonp"
                         }
-                        //sort response based on calculated sortOrder
-                        docs.sort(function(a, b){
-                            return a.sortOrder - b.sortOrder;
-                        });
-                        //return response with new format
-                        return docs;
                     },
-                    //because KendoUI still communicates in the OData V2
-                    total: function (data) {
-                        return data['odata.count'];
+                    filter: agendaFeedFilters,
+                    schema: {
+                        data: function (data) {
+                            //implement un number sort here by adding a sortorder filed and sorting the array (alpha numeric sort) before returning data 
+                            var docs = [];
+                            for (var i = 0; i < data.value.length; i++) {
+                                var doc = {
+                                    sortOrder: setDocDisplayOrder(data.value[i].UnNumber),
+                                    UnNumber: data.value[i].UnNumber,
+                                    Meetings: data.value[i].Meetings,
+                                    //sort files by extension
+                                    Files: data.value[i].Files.sort(function(a,b) {return (a.Extension > b.Extension) ? 1 : ((b.Extension > a.Extension) ? -1 : 0);} ),
+                                    Titles: data.value[i].Titles,
+                                    Types: data.value[i].Types
+                                };
+                                docs.push(doc);
+                            }
+                            //sort response based on calculated sortOrder
+                            docs.sort(function(a, b){
+                                return a.sortOrder - b.sortOrder;
+                            });
+                            //return response with new format
+                            return docs;
+                        },
+                        //because KendoUI still communicates in the OData V2
+                        total: function (data) {
+                            return data['odata.count'];
+                        }
                     }
-                }
-            });
-            
-            //display docs
-            $("#agendaDetail").kendoMobileListView({
-                dataSource: docsDataSource,
-                template: $("#docsListOfficial-template").html(),
-                dataBound: function(e) {
-                    //show - hide languages labels
-                    displayActiveLanguageLabels();
-                }
-            });
-            
+                });
+
+                //display docs
+                $("#agendaDetail").kendoMobileListView({
+                    dataSource: docsDataSource,
+                    template: $("#docsListOfficial-template").html(),
+                    dataBound: function(e) {
+                        //show - hide languages labels
+                        displayActiveLanguageLabels();
+                    }
+                });
+            }
         }
     };
 }());
@@ -187,12 +182,16 @@ function setDocDisplayOrder(unNumber){
             }
             //check if part has add number (*2) or rev number (*4)
             if (oParts[i].indexOf("Add.") >= 0) {
-                //extract digit an * 2
-                sortOrder = sortOrder + parseInt(oParts[i].replace("Add.", "")) * 2;    
+                //extract digit and * 4
+                sortOrder = sortOrder + parseInt(oParts[i].replace("Add.", "")) * 4;    
             }
             if (oParts[i].indexOf("Rev.") >= 0) {
-                //extract digit an * 2
-                sortOrder = sortOrder + parseInt(oParts[i].replace("Rev.", "")) * 4;    
+                //extract digit and * 6
+                sortOrder = sortOrder + parseInt(oParts[i].replace("Rev.", "")) * 6;    
+            }
+            if (oParts[i].indexOf("Corr.") >= 0) {
+                //extract digit and * 2
+                sortOrder = sortOrder + parseInt(oParts[i].replace("Corr.", "")) * 2;    
             }
         }
     }

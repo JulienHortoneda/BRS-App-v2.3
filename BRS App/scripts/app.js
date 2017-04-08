@@ -1,33 +1,13 @@
-//set global variables (for v2 get those from feed)
+//set global variables
 var currentLang = {index: 2, value: "en"};
-var viewConfig = [
-    {vid: 0, type: "documents", conv: "basel", logoUrl: "styles/gfx/headerBc.png", title: "Working Documents", filter: "&$filter=Meetings/any(x: x/Value eq 'COP.12') and Types/any(x: substringof('Working Documents', x/Value) eq true) and Convention eq 'basel'"},
-    {vid: 1, type: "documents", conv: "basel", logoUrl: "styles/gfx/headerBc.png", title: "Information Documents", filter: "&$filter=Meetings/any(x: x/Value eq 'COP.12') and Types/any(x: substringof('Information Documents', x/Value) eq true) and Convention eq 'basel'"},
-    {vid: 2, type: "documents", conv: "basel", logoUrl: "styles/gfx/headerBc.png", title: "CRPs", filter: "&$filter=Meetings/any(x: x/Value eq 'COP.12') and Types/any(x: substringof('CRPs', x/Value) eq true) and Convention eq 'basel'"},
-    {vid: 3, type: "documents", conv: "basel", logoUrl: "styles/gfx/headerBc.png", title: "Draft Report", filter: "&$filter=Meetings/any(x: x/Value eq 'COP.12') and Types/any(x: substringof('Meeting Report', x/Value) eq true) and Convention eq 'basel'"},
-    {vid: 4, type: "agenda", conv: "basel", logoUrl: "styles/gfx/headerBc.png", title: "BC COP-12 Agenda", filter: "&$filter=nodeId eq 'bc' and meetingAccronym eq 'COP.12'"},
-    {vid: 10, type: "documents", conv: "rotterdam", logoUrl: "styles/gfx/headerRc.png", title: "Working Documents", filter: "&$filter=Meetings/any(x: x/Value eq 'COP7') and Types/any(x: substringof('Working documents', x/Value) eq true) and Convention eq 'rotterdam'"},
-    {vid: 11, type: "documents", conv: "rotterdam", logoUrl: "styles/gfx/headerRc.png", title: "Information Documents", filter: "&$filter=Meetings/any(x: x/Value eq 'COP7') and Types/any(x: substringof('Information documents', x/Value) eq true) and Convention eq 'rotterdam'"},
-    {vid: 12, type: "documents", conv: "rotterdam", logoUrl: "styles/gfx/headerRc.png", title: "CRPs", filter: "&$filter=Meetings/any(x: x/Value eq 'COP7') and Types/any(x: substringof('CRPs', x/Value) eq true) and Convention eq 'rotterdam'"},
-    {vid: 13, type: "documents", conv: "rotterdam", logoUrl: "styles/gfx/headerRc.png", title: "Draft Report", filter: "&$filter=Meetings/any(x: x/Value eq 'COP7') and Types/any(x: substringof('Report', x/Value) eq true) and Convention eq 'rotterdam'"},
-    {vid: 14, type: "agenda", conv: "rotterdam", logoUrl: "styles/gfx/headerRc.png", title: "RC COP-7 Agenda", filter: "&$filter=nodeId eq 'rc' and meetingAccronym eq 'COP.7'"},
-    {vid: 20, type: "documents", conv: "stockholm", logoUrl: "styles/gfx/headerSc.png", title: "Working Documents", filter: "&$filter=Meetings/any(x: x/Value eq 'COP7') and Types/any(x: substringof('Working Documents', x/Value) eq true) and Convention eq 'stockholm'"},
-    {vid: 21, type: "documents", conv: "stockholm", logoUrl: "styles/gfx/headerSc.png", title: "Information Documents", filter: "&$filter=Meetings/any(x: x/Value eq 'COP7') and Types/any(x: substringof('Information Documents', x/Value) eq true) and Convention eq 'stockholm'"},
-    {vid: 22, type: "documents", conv: "stockholm", logoUrl: "styles/gfx/headerSc.png", title: "CRPs", filter: "&$filter=Meetings/any(x: x/Value eq 'COP7') and Types/any(x: substringof('CRPs', x/Value) eq true) and Convention eq 'stockholm'"},
-    {vid: 23, type: "documents", conv: "stockholm", logoUrl: "styles/gfx/headerSc.png", title: "Draft Report", filter: "&$filter=Meetings/any(x: x/Value eq 'COP7') and Types/any(x: substringof('Meeting Report', x/Value) eq true) and Convention eq 'stockholm'"},
-    {vid: 24, type: "agenda", conv: "stockholm", logoUrl: "styles/gfx/headerSc.png", title: "SC COP-7 Agenda", filter: "&$filter=nodeId eq 'sc' and meetingAccronym eq 'COP.7'"},
-    {vid: 30, type: "news", conv: "brs", logoUrl: "styles/gfx/headerBrs.png", title: "Annoucements", filter: "$filter=treaty eq 'brs' and substringof('Mobile App - Annoucements', categories) eq true"},
-    {vid: 31, type: "news", conv: "brs", logoUrl: "styles/gfx/headerBrs.png", title: "News", filter: "$filter=treaty eq 'brs' and substringof('Mobile App - News', categories) eq true"},
-    {vid: 35, type: "schedule", conv: "brs", logoUrl: "styles/gfx/headerBrs.png", title: "Schedule", startDate: "2015-05-03", endDate: "2015-05-15", filter: "?$filter=meetingId eq guid'900c5b54-2046-e311-ac6e-0050569d5de3'"},
-    {vid: 36, type: "documentsNonOfficial", conv: "brs", logoUrl: "styles/gfx/headerBrs.png", title: "Side Event documents", filter: ""}
-];
+var brsAppConfig; //array to store app config from the feed
 
 function onPushNotificationReceived(e) {
     alert(JSON.stringify(e));
 };
 
 var everlive = new Everlive({
-   	apiKey: 'gmC7fCidHmOFfj4A',
+   	apiKey: 'JKpGWmBe8Fc5e4e0uYP1BhGBKERVAi4L',
     scheme: 'http' // switch this to 'https' if you'd like to use TLS/SSL encryption and if it is included in your subscription tier
 });
 
@@ -47,14 +27,21 @@ var devicePushSettings = {
 var app;
 (function () {
     document.addEventListener("deviceready", function () {  
-        navigator.splashscreen.hide();
-
-        app = new kendo.mobile.Application(document.body,  {
-            layout: "main-layout",
-            skin: "flat",
-            initial: "views/news.html?vid=30"
-            //initial: "views/documents.html?vid=0"
+        //get app config from feed
+        var oInitialView = "views/news.html?vid=1";
+        var brsAppConfigDS = getConfigDatasource(); 
+        brsAppConfigDS.fetch(function(){
+            oInitialView = initDrawerAndGetInitialView(this);
+        }).then(function(){
+            //init app, once drawer content is ready
+            app = new kendo.mobile.Application(document.body,  {
+                layout: "main-layout",
+                skin: "flat",
+                initial: oInitialView
+            });
+            navigator.splashscreen.hide();
         });
+        
     }, false);
 
     window.app = app;
@@ -62,23 +49,88 @@ var app;
 
 
 //helpers functions
+function getConfigDatasource() {
+    var brsAppConfigDS = new kendo.data.DataSource({
+        serverFiltering: true,
+        serverSorting: true,
+        serverPaging: true,
+        type: "odata",
+        transport: {
+            read: {
+                url: "http://informea.pops.int/brsApp3/brsApp.svc/Config",
+                dataType: "jsonp"
+            }
+        },
+        sort: { field: "displayOrder", dir: "asc" },
+        schema: {
+            // feed is in OData v3
+            data: function (data) {
+                return data["value"];
+            },
+            total: function (data) {
+                return data["odata.count"];
+            }
+        }
+    });
+    return brsAppConfigDS;
+}
+
+function initDrawerAndGetInitialView(oData){
+    var oInitialView = "views/news.html?vid=1";
+    var configData = oData.data();
+    brsAppConfig = oData.data();
+    var oMenu = $("#app-drawer").find(".brsMenu");
+    //if config is reloaded, remove the current items
+    oMenu.find("li").remove();
+    //render flat list in the drawer
+    for (var i = 0; i < configData.length; i++) {
+        var oStyle = "";
+        if (configData[i].drawerItemStyle !== null) {
+            oStyle =  " style=\"" + configData[i].drawerItemStyle + "\"";
+        }
+        if (configData[i].screenUrl == null) {
+            oMenu.append("<li data-brsviewid=\"" + configData[i].id + "\" data-brsparentid=\"" + configData[i].parentId + "\"" + oStyle + ">" + configData[i].nameShort + "</li>");
+        }
+        else {
+            oMenu.append("<li data-brsviewid=\"" + configData[i].id + "\" data-brsparentid=\"" + configData[i].parentId + "\"" + oStyle + "><a data-role=\"button\" href=\"" + configData[i].screenUrl + "?vid=" + configData[i].id + "\">" + configData[i].nameShort + "</a></li>");
+        }
+        //save initial view
+        if (configData[i].isHome == 1) {
+            oInitialView = configData[i].screenUrl + "?vid=" + configData[i].id;
+        }
+    }
+    //re-arrange the list based on hierarchy
+    oMenu.find("li").each(function(index){
+        if ($(this).attr("data-brsparentid") !== "null") {
+            //check if sub-list exists in parent
+            if (oMenu.find("li[data-brsviewid='" + $(this).attr("data-brsparentid") + "'] > ul").length == 0) {
+                oMenu.find("li[data-brsviewid='" + $(this).attr("data-brsparentid") + "']").append("<ul></ul>");
+            }
+            $(this).appendTo(oMenu.find("li[data-brsviewid='" + $(this).attr("data-brsparentid") + "'] > ul"));
+        }
+    });
+    //return initial view
+    return oInitialView;
+}
+
 function openLinkInBrowser(e) {
     //open file in browser using cordova AppInBrowser
     var btnData = e.button.data();
     window.open(btnData.brsurl, '_system', 'location=no,EnableViewPortScale=yes');
-}
-
-function extractUrlParams() {
-    // get all querystring parameters and store in array
-    var location = window.location.toString();
-    var prms = location.substring(location.lastIndexOf('?'));
-    var t = prms.substring(1).split('&');
-    var f = [];
-    for (var i = 0; i < t.length; i++) {
-        var x = t[i].split('=');
-        f[x[0]] = x[1];
+    if (window.event) {
+        window.event.preventDefault && window.event.preventDefault();
+        window.event.returnValue = false;
     }
-    return f;
+}
+function navigateToExternalUrl(url){
+    if (url.substring(0, 4) === 'geo:' && device.platform === 'iOS') {
+            url = 'http://maps.apple.com/?ll=' + url.substring(4, url.length);
+        }
+        window.open(url, '_system');
+        if (window.event) {
+            window.event.preventDefault && window.event.preventDefault();
+            window.event.returnValue = false;
+        }
 }
 
 function switchChange(e)
@@ -86,7 +138,7 @@ function switchChange(e)
 	if (e.checked)
 	{
 		everlive.push.register(devicePushSettings, function() {
-            alert("Successful registration in Backend Services. You are ready to receive push notifications.");
+            alert("Successful registration to receive push notifications.");
         }, function(err) {
             alert("Error: " + err.message);
         });
@@ -107,33 +159,12 @@ function decodeHTML(EncodedHtml) {
     return $('<div/>').html(EncodedHtml).text();
 }
 
-function setViewIdentity(e) {
-    //set view logo once loaded
-    var UrlParams = extractUrlParams();
-    var viewId = UrlParams['vid'];
-    if (viewId == undefined) {viewId = 1;}
-    for (var i = 0; i < viewConfig.length; i++) {
-        if (viewConfig[i].vid == parseInt(viewId)) {
-            $("#brsHeaderImg img").attr("src", viewConfig[i].logoUrl);
-            $("#brsHeaderImgBack img").attr("src", viewConfig[i].logoUrl);
-        }
-    }
-}
-
 function showAgendaDocs(e) {
     //navigate from agenda view to agenda item detailed view with documents list
     var btnData = e.button.data();
     if (btnData.docs !== "") {
         app.navigate("views/agendaDetails.html?vid=" + btnData.vid + "&agenda=" + btnData.agenda + "&docs=" + btnData.docs);
-        //$("#oLog").append("<p>docs: " + btnData.unnumbers + "</p>");
     }
-}
-
-function setAgendaDetails(e) {
-    setViewIdentity(null);
-    var UrlParams = extractUrlParams();
-    //$("#agendaTitle").prepend("Agenda Item " + kendo.htmlEncode(UrlParams['agenda']));
-    $("#agendaTitle").text("Agenda Item " + UrlParams['agenda']).html();
 }
 
 function setLangFilters() {
@@ -174,5 +205,88 @@ function displayActiveLanguageLabels() {
         if ($( this ).find(".label_" + selLangVal).length == 0) {
               $( this ).find(".label_en").addClass("activeLabel");
         }
+    });
+}
+
+function getViewConfig(oView){
+    //var UrlParams = extractUrlParams();
+    var viewId = oView.params.vid;
+    if (viewId == undefined) {viewId = 1;}
+    var oViewConfig = $.grep(brsAppConfig, function (e) { return e.id == viewId; });
+    if (oViewConfig.length == 1) {
+        return oViewConfig[0];
+    }
+    else {
+        return undefined;
+    }
+}
+
+function setHeaderContent(oView, oViewConfig) {
+    //set header brsHeaderBack
+    oView.header.find("#brsHeader > img").attr("src", oViewConfig.headerIconUrl);
+    oView.header.find("#brsHeaderBack > img").attr("src", oViewConfig.headerIconUrl);
+    oView.header.find("#brsHeader").append(oViewConfig.headerText);
+    oView.header.find("#brsHeaderBack").append(oViewConfig.headerText);
+    oView.header.find("#brsHeader").append("<div class=\"clear\"></div>");
+    oView.header.find("#brsHeaderBack").append("<div class=\"clear\"></div>");
+    //set set view title
+    oView.options.title = oViewConfig.nameLong;
+    //set view description
+    if (oViewConfig.description !== null) {
+        oView.content.find(".brsViewDescription").text(decodeHTML(oViewConfig.description)).show();
+    }
+}
+
+function getLanguageCode(langId) {
+    var langCode = "en";
+    switch(parseInt(langId)) {
+        case 1:
+            langCode = "ar";
+            break;
+        case 2:
+            langCode = "zh";
+            break;
+        case 4:
+            langCode = "fr";
+            break;
+        case 5:
+            langCode = "ru";
+            break;
+        case 6:
+            langCode = "es";
+            break;
+        default:
+            langCode = "en";
+    }
+    return langCode;
+}
+
+function isOldConfig(currVersion) {
+    //check if a more recent version of the config exists
+    var res = false;
+    var brsAppConfigDS = getConfigDatasource();
+    brsAppConfigDS.query({
+        filter: { field: "version", operator: "gt", value: currVersion }
+    }).then(function(e) {
+        var view = brsAppConfigDS.view();
+        //console.log(view.length);
+        if (view.length > 0) {
+            $(".btnReload").show();
+            res = true;
+        } 
+        return res;
+    });
+}
+
+function reloadConfig() {
+    //reload the drawer & the config array
+    var oInitialView = "views/news.html?vid=1";
+    var brsAppConfigDS = getConfigDatasource(); 
+    brsAppConfigDS.fetch(function(){
+        oInitialView = initDrawerAndGetInitialView(this);
+    }).then(function(){
+        //init app, once drawer content is ready
+        $(".btnReload").hide();
+        app.initial = oInitialView;
     });
 }
