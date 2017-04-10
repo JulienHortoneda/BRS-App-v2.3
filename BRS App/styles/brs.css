@@ -9,6 +9,7 @@ body {background-color:#292829;}
 .brsContent {padding: 0.4rem 0.3rem 0.6rem 0.3rem;}
 .brsViewDescription {padding: 1rem 1rem 0.6rem 1rem; display:none;}
 .clear {clear:both; height:0px;}
+.oLog {display:none;}
 .km-flat .km-loader:before {background: #00aeef;}
 /* header */
 #brsHeader, #brsHeaderBack {background-color:#292829; margin:0px; max-height:5rem; overflow:hidden; width: 100%;}
@@ -39,15 +40,15 @@ ul.brsMenu li ul li {font-weight:normal; list-style-type:none; padding:2px 0px 2
 .newsUrl, .newsContent, .newsId {display:none;}
 .newsImg {float:left; margin-right:6px; background-color:#CCCCCC; border:1px solid #757375; padding:0px; width:120px;}
 .newsImg img {width:120px; height:80px; margin:0px; padding:3px 5px 2px 3px;}
-#brsNewsDetails .newsContent {display:block;}
+.brsNewsDetails .newsContent {display:block;}
 
 /* schedule */
-#scheduleNav {width:100%;}
-#btnsSchedule {margin: 1em auto;}
-#btnsSchedule .km-button {background-color:transparent; border-color:#007AFF;}
-#btnsSchedule .km-state-active {background-color:#007AFF; border-color:#007AFF;}
+.scheduleNav {width:100%;}
+.btnsSchedule {margin: 1em auto;}
+.btnsSchedule .km-button {background-color:transparent; border-color:#007AFF;}
+.btnsSchedule .km-state-active {background-color:#007AFF; border-color:#007AFF;}
 .schduleBtn {font-size:0.8em;}
-#scheduleList li {border-width:0px;}
+.scheduleList li {border-width:0px;}
 .schedule {margin: 4px 0px 4px 0px; padding: 2px 0px 2px 0px; background-color:#EBE7EB; border: solid 1px #C1BEC1;}
 .scheduleHeader {padding: 2px; height:auto;}
 .scheduleHeaderIcon {float:right; padding:0px 2px 0px 8px;}
@@ -59,7 +60,7 @@ ul.brsMenu li ul li {font-weight:normal; list-style-type:none; padding:2px 0px 2
 .scheduleDescription {display:none; font-size:0.8em; background-color:#FFFFFF; color:#4C5356; padding:4px; font-weight:normal;}
 
 /* doc list styles */
-#docsList .km-button, #agendaDetail  .km-button {padding:3px; border:0px; background:none;}
+.docsList .km-button, .agendaDetail  .km-button {padding:3px; border:0px; background:none;}
 .attentionNote {color:red;}
 .docNumber {font-weight:bold;}
 .docData {overflow:hidden;}
@@ -68,22 +69,18 @@ ul.brsMenu li ul li {font-weight:normal; list-style-type:none; padding:2px 0px 2
 .file {float:left; padding:0px 2px 0px 2px;}
 
 /* agenda styles */
-#confAgenda .km-button {padding:0px; border:0px; background:none; text-align:left;}
+.confAgenda .km-button {padding:0px; border:0px; background:none; text-align:left;}
 .agendaItem {margin: 4px 0px 4px 0px; padding: 2px 0px 2px 0px;}
 .agendaItemNb {font-weight:600;}
 .agendaItemTitle {font-weight:normal;}
 /* agenda details styles - color:#003399;  */
 .agendaDetailsItemTitle {font-weight:bold; padding:8px; margin:2px; font-size:1.2em; background:none; text-align:left;}
-/*#agendaTitle {font-weight:bold; padding:8px; margin:2px; font-size:1.2em; background:none; text-align:left;}
-#agendaTitle h3 {font-size:1em;}
-#agendaDetailNav {border-width:0px;}
-#agendaDetailNav .km-view-title {font-size:1em; background:none; text-align:left; margin:12px 4px 12px 4px; width:100%; height:auto; line-height:1;}
-*/
+
 /* language tabs */
-.brsBody .langBtns {}
-.langBtn {font-size:0.6em;}
-#btnsLang .km-button, #btnsLangAgenda .km-button {background-color:transparent; border-color:#007AFF; min-width:50px;}
-#btnsLang .km-state-active, #btnsLangAgenda .km-state-active {background-color:#007AFF; border-color:#007AFF;}
+.langSelect .km-button {background-color:transparent; border-color:#007AFF; min-width:50px;}
+.langSelect .km-state-active {background-color:#007AFF; border-color:#007AFF;}
+.langSelect .langBtn {font-size:0.6em;}
+
 /* this must be at the bottom (in this order) */
 .arabic {direction: rtl;}
 .label_ar {display:none; direction: rtl;}

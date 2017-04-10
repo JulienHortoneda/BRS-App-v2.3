@@ -3,6 +3,8 @@ var viewId = "";
 (function () {
     window.agenda = {
         init: function() {
+            //get current view id, to be used as selector later on
+            var curViewSelector = this.content;
             //get view config from url and array
             var oViewConfig = getViewConfig(this);
             if (oViewConfig !== undefined) {
@@ -11,7 +13,7 @@ var viewId = "";
                 viewId = oViewConfig.id;
                 //check if language selection should be hidden
                 if (!oViewConfig.isMultilingual) {
-                    $(".langBtns").hide();
+                    curViewSelector.find(".langBtns").hide();
                 }
                 //set header and view title
                 setHeaderContent(this, oViewConfig);
@@ -43,10 +45,14 @@ var viewId = "";
                 });
                 
                 //display agenda
-                $("#confAgenda").kendoMobileListView({
+                curViewSelector.find(".confAgenda").kendoMobileListView({
                     dataSource: agendaDataSource,
                     template: $("#" + oViewConfig.templateId).html(),
                     dataBound: function(e) {
+                        if (this.items().length <= 0) {
+                            curViewSelector.find(".langBtns").hide();
+                            curViewSelector.find(".oLog").html("<p class=\"attentionNote\">No agenda items available.</p>").show();
+                        }
                         //show - hide languages labels
                         displayActiveLanguageLabels();
                     }

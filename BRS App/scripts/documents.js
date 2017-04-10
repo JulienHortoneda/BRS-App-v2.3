@@ -2,6 +2,8 @@
 (function () {
     window.documents = {
         init: function() {
+            //get current view id, to be used as selector later on
+            var curViewSelector = this.content;
             //get view config from url and array
             var oViewConfig = getViewConfig(this);
             if (oViewConfig !== undefined) {
@@ -9,7 +11,7 @@
                 var isOldVersion = isOldConfig(oViewConfig.version);
                 //check if language selection should be hidden
                 if (!oViewConfig.isMultilingual) {
-                    $(".langBtns").hide();
+                    curViewSelector.find(".langBtns").hide();
                 }
                 //set header and view title
                 setHeaderContent(this, oViewConfig);
@@ -60,14 +62,14 @@
                 });
                 
                 //display docs
-                $("#docsList").kendoMobileListView({
+                curViewSelector.find(".docsList").kendoMobileListView({
                     dataSource: docsDataSource,
                     template: $("#" + oViewConfig.templateId).html(),
                     dataBound: function(e) {
                         //check if no documents yet
                         if (this.items().length <= 0) {
-                            $("#btnsLang").hide();
-                            $("#oLog").append("<p class=\"attentionNote\">Documents will be displayed in this screen as soon as they will be published by the Secretariat in the course of the Conference.</p>").show();
+                            curViewSelector.find(".langBtns").hide();
+                            curViewSelector.find(".oLog").html("<p class=\"attentionNote\">Documents will be displayed in this screen as soon as they will be published by the Secretariat in the course of the Conference.</p>").show();
                         }
                         //show - hide languages labels
                         displayActiveLanguageLabels();
@@ -78,17 +80,19 @@
     };
     window.agendadetails = {
         init: function() {
+            //get current view id, to be used as selector later on
+            var curViewSelector = this.content;
             //get view config from url and array
             var oViewConfig = getViewConfig(this);
             if (oViewConfig !== undefined) {
                 //check if language selection should be hidden
                 if (!oViewConfig.isMultilingual) {
-                    $(".langBtns").hide();
+                    curViewSelector.find(".langBtns").hide();
                 }
                 //set header and view title
                 setHeaderContent(this, oViewConfig);
                 //set agenda item sub title
-                $(".agendaDetailsItemTitle").text("Agenda item " + this.params.agenda);
+                curViewSelector.find(".agendaDetailsItemTitle").text("Agenda item " + this.params.agenda);
 
                 //set language
                 currentLang.value = $("#hdnLang").text();
@@ -147,10 +151,15 @@
                 });
 
                 //display docs
-                $("#agendaDetail").kendoMobileListView({
+                curViewSelector.find(".agendaDetail").kendoMobileListView({
                     dataSource: docsDataSource,
                     template: $("#docsListOfficial-template").html(),
                     dataBound: function(e) {
+                        //check if no documents yet
+                        if (this.items().length <= 0) {
+                            curViewSelector.find(".langBtns").hide();
+                            curViewSelector.find(".oLog").html("<p class=\"attentionNote\">Documents will be displayed in this screen as soon as they will be published by the Secretariat in the course of the Conference.</p>").show();
+                        }
                         //show - hide languages labels
                         displayActiveLanguageLabels();
                     }

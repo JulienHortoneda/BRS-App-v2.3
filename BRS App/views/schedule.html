@@ -1,15 +1,15 @@
 <div id="brsSchedule" data-role="view" data-layout="main-layout" data-init="schedule.init" data-reload="true" class="brsBody">
-        <div data-role="navbar" id="scheduleNav">
-            <ul id="btnsSchedule" data-role="buttongroup" data-index="1" data-select="setScheduleDate" data-brsmindate="" data-brsmaxdate="">
-                <li id="btnsSchedulePrev" class="schduleBtn" value="prev">Previous Day</li>
-                <li id="btnsScheduleCur" class="schduleBtn" value="curr">Current Day</li>
-                <li id="btnsScheduleNext" class="schduleBtn" value="next">Next Day</li>
+        <div data-role="navbar" class="scheduleNav">
+            <ul class="btnsSchedule" data-role="buttongroup" data-index="1" data-select="setScheduleDate" data-brsmindate="" data-brsmaxdate="">
+                <li class="schduleBtn btnsSchedulePrev" value="prev">Previous Day</li>
+                <li class="schduleBtn btnsScheduleCur" value="curr">Current Day</li>
+                <li class="schduleBtn btnsScheduleNext" value="next">Next Day</li>
             </ul>
         </div>
     
-    <div id="oLog"></div>
+    <div class="oLog"></div>
     <div class="brsContent brsViewDescription"></div>
-    <ul id="scheduleList" data-role="listview" class="brsContent"></ul>
+    <ul data-role="listview" class="brsContent scheduleList"></ul>
 
     <script type="text/x-kendo-template" id="schedule-template">
         <div class="schedule">

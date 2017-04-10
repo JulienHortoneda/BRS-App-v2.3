@@ -1,6 +1,8 @@
 (function () {
     window.news = {
         init: function() {
+            //get current view id, to be used as selector later on
+            var curViewSelector = this.content;
             //get view config from url and array
             var oViewConfig = getViewConfig(this);
             if (oViewConfig !== undefined) {
@@ -35,9 +37,15 @@
                 });
 
                 //display news
-                $("#newsList").kendoMobileListView({
+                curViewSelector.find(".newsList").kendoMobileListView({
                     dataSource: newsDataSource,
                     template: $("#" + oViewConfig.templateId).html(),
+                    dataBound: function(e) {
+                        //check if no news
+                        if (this.items().length <= 0) {
+                            curViewSelector.find(".oLog").html("<p class=\"attentionNote\">No news available.</p>").show();
+                        }
+                    },
                     click: function(e) {
                         //check if article has content that can be displayed within the app or if it should go to an external url
                         //otherwise, do nothing (just an announcement)
@@ -58,6 +66,8 @@
     };  
     window.newsdetails = {
         init: function() {
+            //get current view id, to be used as selector later on
+            var curViewSelector = this.content;
             //get view config from url and array
             var oViewConfig = getViewConfig(this);
             if (oViewConfig !== undefined) {
@@ -92,9 +102,15 @@
                         }
                     });
                     //display article
-                    $("#newsArticle").kendoMobileListView({
+                    curViewSelector.find(".newsArticle").kendoMobileListView({
                         dataSource: articleDataSource,
-                        template: $("#newsArticle-template").html()
+                        template: $("#newsArticle-template").html(),
+                        dataBound: function(e) {
+                            //check if no news
+                            if (this.items().length <= 0) {
+                                curViewSelector.find(".oLog").html("<p class=\"attentionNote\">The selected article is not available.</p>").show();
+                            }
+                        }
                     });
                 }
                 
@@ -104,6 +120,8 @@
     };
     window.rssnews = {
         init: function() {
+            //get current view id, to be used as selector later on
+            var curViewSelector = this.content;
             //get view config from url and array
             var oViewConfig = getViewConfig(this);
             if (oViewConfig !== undefined) {
@@ -145,9 +163,15 @@
                 });
 
                 //display news
-                $("#rssList").kendoMobileListView({
+                curViewSelector.find(".rssList").kendoMobileListView({
                     dataSource: rssDataSource,
                     template: $("#" + oViewConfig.templateId).html(),
+                    dataBound: function(e) {
+                        //check if no news
+                        if (this.items().length <= 0) {
+                            curViewSelector.find(".oLog").html("<p class=\"attentionNote\">No news articles available.</p>").show();
+                        }
+                    },
                     click: function(e) {
                         if (e.dataItem.link !== undefined && e.dataItem.link !== null && e.dataItem.link !== "") {
                             navigateToExternalUrl(e.dataItem.link);

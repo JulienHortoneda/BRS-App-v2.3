@@ -1,6 +1,8 @@
 (function () {
     window.schedule = {
         init: function() {
+            //get current view id, to be used as selector later on
+            var curViewSelector = this.content;
             //get view config from url and array
             var oViewConfig = getViewConfig(this);
             //init dates variables
@@ -61,8 +63,8 @@
                         //check if current day in range and point to start day if not
                         if (currDay < oStart || currDay > oEnd) { currDay = oStart; } 
                         //set the date navigation buttons and boundaries
-                        $("#btnsSchedule").attr("data-brsmindate", oStart);
-                        $("#btnsSchedule").attr("data-brsmaxdate", oEnd);
+                        curViewSelector.find(".btnsSchedule").attr("data-brsmindate", oStart);
+                        curViewSelector.find(".btnsSchedule").attr("data-brsmaxdate", oEnd);
                         setSchduleButtons(currDay);
                     }
                 }).then(function(){
@@ -80,13 +82,13 @@
                             ]
                     });
                     //display events
-                    $("#scheduleList").kendoMobileListView({
+                    curViewSelector.find(".scheduleList").kendoMobileListView({
                         dataSource: scheduleLocalDataSource,
                         template: $("#" + oViewConfig.templateId).html(),
                         dataBound: function(e) {
                             //check if no event yet
                             if (this.items().length <= 0) {
-                                $("#oLog").append("<p class=\"attentionNote\">No events available for this day.</p>");
+                                curViewSelector.find(".oLog").html("<p class=\"attentionNote\">No events available for this day.</p>").show();
                             }
                         },
                         click: function(e) {
@@ -97,8 +99,8 @@
                             }
                             else {
                                 //collapse open descriptions + icons 
-                                $("#scheduleList").find(".scheduleDescription").hide();
-                                $("#scheduleList").find(".km-icon").removeClass("km-arrow-c").addClass("km-arrow-e");
+                                curViewSelector.find(".scheduleList").find(".scheduleDescription").hide();
+                                curViewSelector.find(".scheduleList").find(".km-icon").removeClass("km-arrow-c").addClass("km-arrow-e");
                                 //show selected
                                 $(e.item).find(".scheduleDescription").show("slow");
                                 $(e.item).find(".km-icon").removeClass("km-arrow-e").addClass("km-arrow-c");
@@ -114,48 +116,51 @@
 }());
 
 function setSchduleButtons(activeDay) {
+    var curViewSelector = app.view().content;
     //get start and end date from html
-    var oStart = kendo.parseDate(kendo.toString(kendo.parseDate($("#btnsSchedule").attr("data-brsmindate")), "yyyy-MM-dd") + " 00:00");
-    var oEnd = kendo.parseDate(kendo.toString(kendo.parseDate($("#btnsSchedule").attr("data-brsmaxdate")), "yyyy-MM-dd") + " 23:59");
+    var oStart = kendo.parseDate(kendo.toString(kendo.parseDate(curViewSelector.find(".btnsSchedule").attr("data-brsmindate")), "yyyy-MM-dd") + " 00:00");
+    var oEnd = kendo.parseDate(kendo.toString(kendo.parseDate(curViewSelector.find(".btnsSchedule").attr("data-brsmaxdate")), "yyyy-MM-dd") + " 23:59");
     //check if date navigation buttons should be hidden
     if (activeDay <= oStart) { 
-        $("#btnsSchedulePrev").hide(); 
+        curViewSelector.find(".btnsSchedulePrev").hide(); 
     }
     else {
-        $("#btnsSchedulePrev").show(); 
+        curViewSelector.find(".btnsSchedulePrev").show(); 
     }
     if (kendo.parseDate(kendo.toString(kendo.parseDate(activeDay), "yyyy-MM-dd") + " 23:59") >= oEnd) { 
-        $("#btnsScheduleNext").hide(); 
+        curViewSelector.find(".btnsScheduleNext").hide(); 
     }
     else {
-        $("#btnsScheduleNext").show(); 
+        curViewSelector.find(".btnsScheduleNext").show(); 
     }
     //set schedule navigation buttons with current day and Previous + Next
     var oPrev = new Date();
     oPrev.setTime(activeDay.getTime() - 24 * 3600 * 1000);
     var oNext = new Date();
     oNext.setTime(activeDay.getTime() + 24 * 3600 * 1000);
-    $("#btnsSchedulePrev").attr("value", kendo.toString(kendo.parseDate(oPrev), "yyyy-MM-dd"));
-    $("#btnsScheduleNext").attr("value", kendo.toString(kendo.parseDate(oNext), "yyyy-MM-dd"));
-    $("#btnsSchedule").find(".km-state-active").removeClass("km-state-active");
-    $("#btnsScheduleCur").attr("value", kendo.toString(kendo.parseDate(activeDay), "yyyy-MM-dd")).addClass("km-state-active");
-    $("#btnsScheduleCur").text(kendo.toString(kendo.parseDate(activeDay), "d MMMM"));
+    curViewSelector.find(".btnsSchedulePrev").attr("value", kendo.toString(kendo.parseDate(oPrev), "yyyy-MM-dd"));
+    curViewSelector.find(".btnsScheduleNext").attr("value", kendo.toString(kendo.parseDate(oNext), "yyyy-MM-dd"));
+    curViewSelector.find(".btnsSchedule").find(".km-state-active").removeClass("km-state-active");
+    curViewSelector.find(".btnsScheduleCur").attr("value", kendo.toString(kendo.parseDate(activeDay), "yyyy-MM-dd")).addClass("km-state-active");
+    curViewSelector.find(".btnsScheduleCur").text(kendo.toString(kendo.parseDate(activeDay), "d MMMM"));
     
 }
 
 function setScheduleDate() {
+    var curViewSelector = app.view().content;
+    curViewSelector.find(".oLog").text("").hide();
     //filter events with selected day ones only
-    var selDay = $("#btnsSchedule li").eq(this.current().index()).attr("value");
+    var selDay = $(".btnsSchedule li").eq(this.current().index()).attr("value");
     //get start and end date from html
-    var oStart = kendo.parseDate(kendo.toString(kendo.parseDate($("#btnsSchedule").attr("data-brsmindate")), "yyyy-MM-dd") + " 00:00");
-    var oEnd = kendo.parseDate(kendo.toString(kendo.parseDate($("#btnsSchedule").attr("data-brsmaxdate")), "yyyy-MM-dd") + " 23:59");
+    var oStart = kendo.parseDate(kendo.toString(kendo.parseDate(curViewSelector.find(".btnsSchedule").attr("data-brsmindate")), "yyyy-MM-dd") + " 00:00");
+    var oEnd = kendo.parseDate(kendo.toString(kendo.parseDate(curViewSelector.find(".btnsSchedule").attr("data-brsmaxdate")), "yyyy-MM-dd") + " 23:59");
     //set navigation buttons
     setSchduleButtons(kendo.parseDate(selDay + " 00:00"));
     //filter datasource with selected day, if in range
     if (kendo.parseDate(selDay + " 00:00") >= oStart || kendo.parseDate(selDay + " 23:59") <= oEnd) {
         //scheduleDataSource.filter([{ field: "startDate", operator: "gt", value: kendo.parseDate(selDay + " 00:00") }, { field: "startDate", operator: "lt", value: kendo.parseDate(selDay + " 23:59") }]);
-        $("#scheduleList").data("kendoMobileListView").dataSource.filter({ field: "startDate", operator: "startswith", value: kendo.toString(selDay, "yyyy-MM-dd") }); 
-        $("#scheduleList").data("kendoMobileListView").refresh();
+        curViewSelector.find(".scheduleList").data("kendoMobileListView").dataSource.filter({ field: "startDate", operator: "startswith", value: kendo.toString(selDay, "yyyy-MM-dd") }); 
+        //$("#scheduleList").data("kendoMobileListView").refresh();
     }
 }
 

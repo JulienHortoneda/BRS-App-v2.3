@@ -184,24 +184,25 @@ function displayActiveLanguageLabels() {
     //check if default lang (en) should be displayed if nothing in selected language  
     var selLangVal = $("#hdnLang").text();
     var selLangIndex = parseInt($("#hdnLangIndex").text());
-    //select language button, if any
-    var buttongroup = $(".langSelect").data("kendoMobileButtonGroup");
+    //select language button on current view, if any
+    var curViewSelector = app.view().content;
+    var buttongroup = curViewSelector.find(".langSelect").data("kendoMobileButtonGroup");
     buttongroup.select(selLangIndex);
     //not really elegant, but under deadline...
     //update documents
-    $("#docsList").find(".oDoc").each(function( index ) {
+    $(".docsList").find(".oDoc").each(function( index ) {
         if ($( this ).find(".label_" + selLangVal).length == 0) {
               $( this ).find(".label_en").addClass("activeLabel");
         }
     });
     //update agenda
-    $("#confAgenda").find(".agendaItem").each(function( index ) {
+    $(".confAgenda").find(".agendaItem").each(function( index ) {
         if ($( this ).find(".label_" + selLangVal).length == 0) {
               $( this ).find(".label_en").addClass("activeLabel");
         }
     });
     //update agenda details - 
-    $("#agendaDetail").find(".oDoc").each(function( index ) {
+    $(".agendaDetail").find(".oDoc").each(function( index ) {
         if ($( this ).find(".label_" + selLangVal).length == 0) {
               $( this ).find(".label_en").addClass("activeLabel");
         }
