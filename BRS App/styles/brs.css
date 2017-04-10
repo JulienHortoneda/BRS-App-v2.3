@@ -31,7 +31,7 @@ ul.brsMenu li ul {padding-left:0px;}
 ul.brsMenu li ul li {font-weight:normal; list-style-type:none; padding:2px 0px 2px 0px; background-image:none; color:#FFFFFF;}
 
 /* reload config button */
-.btnReload,  .btnReload.km-button {position:fixed; display:none; top:10rem; left: 6rem; z-index:20; background-color:#757375; color:#FFFFFF; padding:0.3rem; border:0.5rem solid #757375; border-radius:2rem;}
+.btnReload, .btnReload.km-button {position:fixed; display:none; top:10rem; left: 6rem; z-index:20; background-color:#757375; color:#FFFFFF; padding:0.3rem; border:0.5rem solid #757375; border-radius:2rem;}
 
 /* news */
 .newsTitle {font-weight:bold;}
