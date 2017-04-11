@@ -28,7 +28,8 @@ ul.brsMenu a {text-decoration:none;}
 ul.brsMenu a:after {display:none;}
 ul.brsMenu li, ul.brsMenu.km-list > li {font-weight:bold; border-bottom:1px solid #FFFFFF; padding-left:28px;}
 ul.brsMenu li ul {padding-left:0px;}
-ul.brsMenu li ul li {font-weight:normal; list-style-type:none; padding:2px 0px 2px 0px; background-image:none; color:#FFFFFF;}
+ul.brsMenu li ul li {font-weight:normal; list-style-type:none; padding:2px 0px 2px 0px; background-image:none; color:#FFFFFF; margin:0.4rem 0rem 0.4rem 0rem;}
+ul.brsMenu li ul li:last-child {border-bottom-width:0px;}
 
 /* reload config button */
 .btnReload, .btnReload.km-button {position:fixed; display:none; top:10rem; left: 6rem; z-index:20; background-color:#757375; color:#FFFFFF; padding:0.3rem; border:0.5rem solid #757375; border-radius:2rem;}
@@ -37,7 +38,6 @@ ul.brsMenu li ul li {font-weight:normal; list-style-type:none; padding:2px 0px 2
 .newsTitle {font-weight:bold;}
 .newsDescription {margin:0px; padding:0px; font-size:0.8em;font-weight:normal;}
 .newsDescription p {font-weight:normal; margin:0px; padding:0px;}
-.newsUrl, .newsContent, .newsId {display:none;}
 .newsImg {float:left; margin-right:6px; background-color:#CCCCCC; border:1px solid #757375; padding:0px; width:120px;}
 .newsImg img {width:120px; height:80px; margin:0px; padding:3px 5px 2px 3px;}
 .brsNewsDetails .newsContent {display:block;}

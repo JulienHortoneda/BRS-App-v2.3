@@ -177,36 +177,49 @@ function setLangFilters() {
     $("#hdnLangIndex").text(this.current().index());
     
     //show - hide languages labels
-    displayActiveLanguageLabels();
+    displayActiveLanguageLabels(true);
 }
 
-function displayActiveLanguageLabels() {
+function displayActiveLanguageLabels(langFiltersSet) {
     //check if default lang (en) should be displayed if nothing in selected language  
     var selLangVal = $("#hdnLang").text();
     var selLangIndex = parseInt($("#hdnLangIndex").text());
+    if (selLangIndex == undefined) {
+        //get with lang value
+        currentLang = getLanguageIndex(selLangVal);
+    }
     //select language button on current view, if any
     var curViewSelector = app.view().content;
     var buttongroup = curViewSelector.find(".langSelect").data("kendoMobileButtonGroup");
-    buttongroup.select(selLangIndex);
-    //not really elegant, but under deadline...
+    if (buttongroup !== undefined && buttongroup !== null) {
+        buttongroup.select(selLangIndex);
+    }
+    //update items list for which no content is available in languages and fall back to english, not really elegant, but under deadline...
+    if (langFiltersSet == undefined && langFiltersSet == null) {
+        //if active labels are not yet set
+        $(".activeLabel").removeClass("activeLabel");
+        $(".label_"+ selLangVal).addClass("activeLabel");
+    }
     //update documents
-    $(".docsList").find(".oDoc").each(function( index ) {
+    curViewSelector.find(".oDoc").each(function( index ) {
         if ($( this ).find(".label_" + selLangVal).length == 0) {
               $( this ).find(".label_en").addClass("activeLabel");
         }
     });
     //update agenda
-    $(".confAgenda").find(".agendaItem").each(function( index ) {
+    var titi = curViewSelector.find(".agendaItem");
+    var toto =  curViewSelector.find(".confAgenda > li");
+    curViewSelector.find(".confAgenda > li").each(function( index ) {
         if ($( this ).find(".label_" + selLangVal).length == 0) {
               $( this ).find(".label_en").addClass("activeLabel");
         }
     });
     //update agenda details - 
-    $(".agendaDetail").find(".oDoc").each(function( index ) {
-        if ($( this ).find(".label_" + selLangVal).length == 0) {
-              $( this ).find(".label_en").addClass("activeLabel");
-        }
-    });
+    //$(".agendaDetail").find(".oDoc").each(function( index ) {
+    //    if ($( this ).find(".label_" + selLangVal).length == 0) {
+    //          $( this ).find(".label_en").addClass("activeLabel");
+    //    }
+    //});
 }
 
 function getViewConfig(oView){
@@ -260,6 +273,30 @@ function getLanguageCode(langId) {
             langCode = "en";
     }
     return langCode;
+}
+
+function getLanguageIndex(langCode) {
+    var langIndex = 2;
+    switch(langCode) {
+        case "ar":
+            langIndex = 0;
+            break;
+        case "zh":
+            langIndex = 1;
+            break;
+        case "fr":
+            langIndex = 3;
+            break;
+        case "ru":
+            langIndex = 4;
+            break;
+        case "es":
+            langIndex = 5;
+            break;
+        default:
+            langIndex = 2;
+    }
+    return langIndex;
 }
 
 function isOldConfig(currVersion) {
