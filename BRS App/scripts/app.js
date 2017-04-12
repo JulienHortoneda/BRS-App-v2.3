@@ -7,7 +7,8 @@ function onPushNotificationReceived(e) {
 };
 
 var everlive = new Everlive({
-   	apiKey: 'JKpGWmBe8Fc5e4e0uYP1BhGBKERVAi4L',
+   	//apiKey: 'JKpGWmBe8Fc5e4e0uYP1BhGBKERVAi4L',
+    apiKey: "2mq27rwgpc39mob1",
     scheme: 'http' // switch this to 'https' if you'd like to use TLS/SSL encryption and if it is included in your subscription tier
 });
 
@@ -133,20 +134,16 @@ function navigateToExternalUrl(url){
         }
 }
 
-function switchChange(e)
-{
-	if (e.checked)
-	{
+function switchChange(e) {
+	if (e.checked) {
 		everlive.push.register(devicePushSettings, function() {
             alert("Successful registration to receive push notifications.");
         }, function(err) {
             alert("Error: " + err.message);
         });
 	}
-	else
-	{
-		el.push.unregister(function()
-		{
+	else {
+		el.push.unregister(function(){
 		}, function(err)
 		{
 			alert("Error: " + err.message);
